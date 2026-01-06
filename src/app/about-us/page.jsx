@@ -18,9 +18,9 @@ const page = () => {
       </div>
       <div className="relative w-full h-[60vh] md:h-[100vh]">
         <video src="/photo/WeddingVideo/Aboutus.mp4" autoPlay loop muted className="w-full h-full object-cover"></video>
-        <h1 className={`${playfair.className} absolute inset-0 flex items-center justify-center top-100 md:top-200 text-3xl md:text-7xl align-bottom text-white font-bold md:font-normal`}>
+        {/* <h1 className={`${playfair.className} absolute inset-0 flex items-center justify-center top-100 md:top-200 text-3xl md:text-7xl align-bottom text-white font-bold md:font-normal`}>
           ABOUT US
-        </h1>
+        </h1> */}
       </div>
 
       <div className='py-20 bg-[#f0e9e0] px-5 '>
