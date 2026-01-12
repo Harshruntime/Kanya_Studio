@@ -1,22 +1,22 @@
-const express = require('express');
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const Contact_Schema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String, required: true },
-    guestCount: { type: String, required: true },
-    eventDetails: { type: String, required: true },
-    location: { type: String, required: true },
-    eventDate: { type: String, required: true },
-    services: {
-        type: [String],
-        enum: ['Photography', 'Films', 'Both Photography and Films'],
-        required: true
-    },
-}, { timestamps: true });
+const Contact_Schema = new mongoose.Schema(
+  {
+    name: String,
+    email: String,
+    phone: String,
+    guestCount: String,
+    eventDetails: String,
+    location: String,
+    eventDate: String,
+    services: [String],
+  },
+  { timestamps: true }
+);
 
-const contactModel = mongoose.model('contacts_data', Contact_Schema);
+// 🔑 Prevent OverwriteModelError
+const contactModel =
+  mongoose.models.contacts_data ||
+  mongoose.model("contacts_data", Contact_Schema);
 
-module.exports = contactModel;
-    
+export default contactModel;

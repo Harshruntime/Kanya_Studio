@@ -1,50 +1,52 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay } from "swiper/modules"; // Removed Pagination module
 import "swiper/css";
 import "swiper/css/autoplay";
-import { Playfair_Display } from 'next/font/google'
+// import "swiper/css/pagination"; // No longer needed
+
+import { Playfair_Display } from 'next/font/google';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['400', '700'], // adjust as needed
-  style: ['normal', 'italic'], // if you need italic
-})
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+});
 
 export default function Slider() {
-  const images = [
-    { src: "/photo/WeddingImage/img1.jpg", alt: "img1" },
-    { src: "/photo/WeddingImage/img2.jpg", alt: "img2" },
-    { src: "/photo/WeddingImage/img7.jpg", alt: "img7" },
-    { src: "/photo/WeddingImage/img3.jpg", alt: "img3" },
-    { src: "/photo/WeddingImage/img9.jpg", alt: "img9" },
-    { src: "/photo/WeddingImage/img4.jpg", alt: "img4" },
-    { src: "/photo/WeddingImage/img10.jpg", alt: "img10" },
-    { src: "/photo/WeddingImage/img15.jpg", alt: "img8" },
-    { src: "/photo/WeddingImage/img11.jpg", alt: "img11" },
-    { src: "/photo/WeddingImage/img6.jpg", alt: "img6" },
-    { src: "/photo/WeddingImage/img12.jpg", alt: "img12" },
-    { src: "/photo/WeddingImage/img13.jpg", alt: "img13" },
-    { src: "/photo/WeddingImage/img5.jpg", alt: "img5" },
-    { src: "/photo/WeddingImage/img14.png", alt: "img14" },
-    { src: "/photo/WeddingImage/img8.jpg", alt: "img15" },
-  ];
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSliderImages = async () => {
+      try {
+        const res = await fetch("/api/photography");
+        const result = await res.json();
+        if (result.success) {
+          setImages(result.data);
+        }
+      } catch (error) {
+        console.error("Slider fetch error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchSliderImages();
+  }, []);
+
+  if (isLoading) return null;
 
   return (
-    <div className="py-10 md:py-20  mx-2">
-      {/* Section Heading */}
-      <h2 className={`${playfair.className} text-center text-xl sm:text-2xl md:text-5xl  text-[#8B5E3C] mb-10 leading-relaxed`}>
-        THE STORYTELLERS
-      </h2>
-
-      {/* Swiper Carousel */}
+    <div className="py-10 md:py-20 mx-2">
       <Swiper
-        modules={[Pagination,Autoplay]}
+        modules={[Autoplay]} // Only keeping Autoplay
         spaceBetween={10}
         slidesPerView={1}
-        pagination={{ clickable: true }}
-        speed={800} 
+        // pagination={{ clickable: true }} // REMOVED THIS LINE
+        speed={800}
         breakpoints={{
           480: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
@@ -56,16 +58,16 @@ export default function Slider() {
           delay: 2000,
           disableOnInteraction: false,
         }}
-        loop={true}
+        loop={images.length > 5}
         className="max-w-full mx-auto px-4 sm:px-8"
       >
-        {images.map(({ src, alt }, index) => (
-          <SwiperSlide key={index}>
-            <div className="w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] overflow-hidden ">
+        {images.map((img, index) => (
+          <SwiperSlide key={img._id || index}>
+            <div className="w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] overflow-hidden rounded-sm">
               <img
-                src={src}
-                alt={alt}
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all scroll-smooth duration-500 ease-in-out"
+                src={img.imageUrl}
+                alt={img.name || "Storyteller Image"}
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out cursor-pointer"
               />
             </div>
           </SwiperSlide>

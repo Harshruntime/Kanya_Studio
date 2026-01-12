@@ -1,38 +1,90 @@
+'use client'
+
 import React from 'react'
 import Header from '../Componets/Header'
 import Footer from '../Componets/Footer'
 import { Playfair_Display } from 'next/font/google'
 import Slider from '../Componets/Slider'
+import Image from 'next/image'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['400', '700'], // adjust as needed
-  style: ['normal', 'italic'], // if you need italic
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
 })
 
-const page = () => {
+const AboutPage = () => {
   return (
-    <div className='relative bg-[#f0e9e0] '>
-      <div className="absolute top-0 left-0 w-full z-10">
-        <Header />
-      </div>
-      <div className="relative w-full h-[60vh] md:h-[100vh]">
-        <video src="/photo/WeddingVideo/Aboutus.mp4" autoPlay loop muted className="w-full h-full object-cover"></video>
-        {/* <h1 className={`${playfair.className} absolute inset-0 flex items-center justify-center top-100 md:top-200 text-3xl md:text-7xl align-bottom text-white font-bold md:font-normal`}>
-          ABOUT US
-        </h1> */}
-      </div>
+    <div className='relative  bg-[#f0e9e0] text-[#1a1a1a] selection:bg-[#c26e00] selection:text-white overflow-x-hidden'>
+      <Header />
 
-      <div className='py-20 bg-[#f0e9e0] px-5 '>
-        <h1 className={`${playfair.className} text-center text-md font-bold text-[#c26e00] md:text-2xl py-2`}>KANYA STUDIO, a celebration of timeless grace. </h1>
-        <p className={`${playfair.className}  text-md text-[#c26e00] md:text-xl text-center`}>
-          At KANYA STUDIO, we believe in preserving emotions through art capturing every glance <br />
-          every smile, and every story that defines the beauty of your most cherished moments.</p>
-      </div>
+      {/* --- HERO SECTION: THE SIGNATURE PORTRAIT --- */}
+      <section className="relative w-full min-h-screen flex flex-col justify-center items-center lg:top-20 lg:py-60 lg:pt-0 mb-20 lg:mb-0">
 
+        {/* Massive Background Decorative Text */}
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[22vw] font-bold text-black/[0.02] whitespace-nowrap pointer-events-none select-none z-0 ${playfair.className}`}>
+          THE LEGACY
+        </div>
+
+        <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 items-center gap-16 relative z-10">
+
+          {/* LEFT: EDITORIAL IMAGE BOX */}
+          <div className="lg:col-span-5 relative group">
+            {/* Architectural Frame Behind Image */}
+            <div className="absolute -inset-4 border border-[#c26e00]/30 translate-x-8 translate-y-8 -z-10 transition-transform duration-1000 group-hover:translate-x-4 group-hover:translate-y-4"></div>
+
+            <div className="relative h-[60vh] lg:h-[85vh] w-full overflow-hidden shadow-2xl">
+              <img
+                src="DiveshAboutus.png"
+                alt="Divesh Paswan Portrait"
+                className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110"
+              />
+              {/* Subtle Overlay on Image */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            </div>
+
+            {/* Floating Label */}
+            <div className="absolute -bottom-6 -right-6 bg-[#c26e00] text-white p-6 hidden lg:block">
+              <p className="text-[10px] tracking-[0.4em] uppercase font-bold">Director's Profile</p>
+            </div>
+          </div>
+
+          {/* RIGHT: BOLD BRAND STATEMENT */}
+          <div className="lg:col-span-7 space-y-10 lg:pl-10">
+            <div className="space-y-4">
+              <span className="text-[11px] uppercase tracking-[0.8em] text-[#c26e00] font-bold block mb-4">Established 2024 — Mumbai</span>
+              <h1 className={`${playfair.className} text-7xl md:text-9xl italic leading-[0.85] tracking-tighter`}>
+                Crafting <br />
+                <span className="text-[#c26e00] not-italic">Visual</span> <br />
+                Poetry.
+              </h1>
+            </div>
+
+            <div className="max-w-md space-y-6">
+              <div className="h-[1px] w-20 bg-[#c26e00]"></div>
+              <p className="text-sm md:text-base leading-relaxed opacity-80 font-light tracking-widest uppercase italic">
+                Kanya Studio is a sanctuary where light meets legacy. Specialized in cinematic documentation and high-fashion wedding preservation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 2: THE PHILOSOPHY (STAGGERED) --- */}
+      <div className='py-32 bg-white/30 backdrop-blur-sm px-6 relative'>
+        <div className="max-w-4xl mx-auto text-center space-y-10">
+          <h2 className={`${playfair.className} text-4xl md:text-5xl italic text-[#c26e00]`}>
+            "Every frame is a heartbeat preserved in gold."
+          </h2>
+          <div className="h-[1px] w-24 bg-[#c26e00] mx-auto opacity-30"></div>
+          <p className="text-sm md:text-xl font-light max-w-2xl mx-auto leading-relaxed italic">
+            At KANYA STUDIO, we believe in the quiet power of a glance. We don't just record weddings; we curate the visual heritage of your family.
+          </p>
+        </div>
+      </div>
+      {/* --- SECTION 3: THE DRAMA HERO --- */}
       <div className="relative w-full h-[50vh] md:h-full overflow-hidden">
         <img src="/photo/WeddingImage/About.jpg" alt="About" className="w-full h-full object-cover" />
-
         <div className="absolute inset-0 flex flex-col items-center justify-center lg:top-0 text-center px-4">
           <h1 className={`${playfair.className} text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#030303] leading-tight`}>
             FROM <br /> <span className="italic text-3xl sm:text-3xl md:text-5xl lg:text-6xl font-bold">Romance & Magic</span>
@@ -41,34 +93,63 @@ const page = () => {
         </div>
       </div>
 
+      {/* --- SECTION 4: THE FOUNDER (PREMIUM ARCHITECTURAL) --- */}
+      <section className="py-20 container mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div className="relative">
+            {/* Profile Image with modern offset box */}
+            <div className="aspect-[3/4] relative z-10">
+              <img src="divesh.png" alt="Divesh Paswan" className="w-full h-full object-cover rounded-sm shadow-2xl" />
+            </div>
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-[#c26e00] -z-10 opacity-10"></div>
+            <div className="absolute top-10 -left-10 text-[10px] rotate-90 origin-left uppercase tracking-[1em] opacity-20 whitespace-nowrap">
+              THE ARCHITECT OF MEMORIES
+            </div>
+          </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-center max-w-full py-10 px-6 md:py-20 md:px-40">
-        <img src="divesh.png" alt="DiveshProfile" className="w-60 h-90 md:w-90 md:h-120  object-cover shadow-lg" />
-        <p className={`${playfair.className} text-base md:text-lg leading-relaxed text-justify mt-8 md:mt-0 md:ml-10  md:max-w-4xl`}>
-          <span className="block text-3xl md:text-5xl font-bold leading-snug mb-3 text-[#c26e00]">
-          Divesh Paswan</span> {"  "} CEO and Post Production Head of <strong>Kanya Studio</strong>, a seasoned creative professional 
-          with extensive expertise in wedding and commercial editing. Successfully delivered over 3,000+ high-quality edits.
-           Known for producing some of the finest edits in the wedding industry, having led projects for one of Asia’s 
-           top 5 wedding companies, and continuing to be a trusted freelancer for premier brands.
-          <br />
-          <br />
-          With over a decade of experience, Divesh is celebrated for his ability to capture love stories and emotions
-          through visually stunning, heartfelt imagery. His background in fashion photography adds a distinctive flair
-          to his work, blending artistry with an exceptional eye for detail, styling, lighting, and composition.
-        </p>
-      </div>
+          <div className="space-y-8">
+            <div className="space-y-2">
+              <p className="text-[11px] uppercase tracking-[0.6em] text-[#c26e00] font-bold">The Creative Director</p>
+              <h3 className={`${playfair.className} text-5xl md:text-7xl italic font-bold text-[#c26e00]`}>Divesh Paswan</h3>
+            </div>
 
-      <div className='w-full h-[80vh] md:h-full overflow-hidden py-10'>
-        <img src="/photo/WeddingImage/Haldi.png" alt="haldiImage" className='w-full h-full object-cover ' />
-      </div>
+            <div className="space-y-6 text-justify text-gray-700 font-light leading-loose md:text-lg">
+              <p>
+                <strong className="text-black uppercase tracking-widest text-sm">CEO & Post Production Head</strong> of Kanya Studio, Divesh Paswan is a visionary whose portfolio spans over <span className="text-[#c26e00] font-bold">3,000+ high-quality edits</span>.
+              </p>
+              <p>
+                Having pioneered visual storytelling for Asia’s top-tier wedding firms, his approach is defined by an obsession with <span className="italic">lighting, composition, and emotional nuance.</span>
+              </p>
+              <p>
+                With a decade of mastery in fashion photography, Divesh brings a distinctive high-end flair to the wedding industry—blending the grit of raw human emotion with the polish of high-fashion styling.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section >
 
-      <div>
-        <Slider/>
-      </div>
+
+
+      {/* --- WIDE ARCHIVAL SECTION --- */}
+      < section className="" >
+        <div className='w-full h-[40vh] md:h-[100vh] overflow-hidden transition-all duration-[2s] cursor-crosshair relative group'>
+          <img src="/photo/WeddingImage/Haldi.png" alt="Process" className='w-full h-full object-cover transition-transform duration-[5s] group-hover:scale-105' />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+            <span className="text-white text-[10px] uppercase tracking-[1em] border border-white/50 px-8 py-4 backdrop-blur-md">View Archival Frames</span>
+          </div>
+        </div>
+      </section >
+
+      {/* --- SLIDER SECTION --- */}
+      < div className="bg-white py-32 border-t border-black/5 text-center" >
+        <p className="text-[#c26e00] text-[10px] uppercase tracking-[0.8em] font-bold mb-4">Motion & Still</p>
+        <h4 className={`${playfair.className} text-5xl italic`}>The Gallery.</h4>
+        <Slider />
+      </div >
 
       <Footer />
-    </div>
+    </div >
   )
 }
 
-export default page
+export default AboutPage

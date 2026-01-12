@@ -1,21 +1,25 @@
 'use client'
+import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { FaUsers, FaAddressBook, FaEnvelope, FaFileAlt } from 'react-icons/fa';
+import {
+  FaUsers, FaAddressBook, FaEnvelope, FaFileAlt, FaSearch,
+  FaCalendarAlt, FaChartBar, FaBox, FaCog, FaArrowUp, FaEllipsisH,
+  FaUserCircle, FaSignOutAlt, FaSun, FaMoon,
+  FaRegMoon,
+  FaCamera,
+  FaVideo
+} from 'react-icons/fa';
+import { OverviewPage } from './OverviewPage';
+import { Photography } from './Photography';
+import { Videography } from './Videography';
+import CustomersDetailsPage from './CustomersDetailsPage';
 
+// Inside your Dashboard component:
 const Dashboard = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-
-  // Stats data for dashboard cards
-
-const stats = [
-  { title: 'Users', icon: <FaUsers size={30} color="#4A5568" /> },
-  { title: 'Contacts Details', icon: <FaAddressBook size={30} color="#4A5568" /> },
-  { title: 'Email Details', icon: <FaEnvelope size={30} color="#4A5568" /> },
-  { title: 'All Detail', icon: <FaFileAlt size={30} color="#4A5568" /> },
-];
-
+  const [activeTab, setActiveTab] = useState('Overview');
 
   useEffect(() => {
     const isAuth = localStorage.getItem('isAuthenticated');
@@ -26,13 +30,11 @@ const stats = [
     }
   }, [router]);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-500 text-lg">Loading...</p>
-      </div>
-    );
-  }
+  if (loading) return (
+    <div className="flex items-center justify-center min-h-screen bg-white ">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900 "></div>
+    </div>
+  );
 
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
@@ -40,45 +42,88 @@ const stats = [
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header */}
-      <header className="bg-white shadow-md px-4 py-5 flex justify-between items-center">
-        <h1 className="flex items-center justify-center text-2xl font-bold text-gray-800 font-serif ml-20">Dashboard</h1>
-        <button onClick={handleLogout} className="bg-black hover:bg-black/80 text-white px-4 py-2 rounded transition">Logout </button>
-      </header>
+    <div className="flex min-h-screen bg-[#fafafa]  text-slate-950 font-sans transition-colors duration-300">
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat) => (
-            <div key={stat.title} className="bg-white rounded-lg shadow-md p-6 flex items-center space-x-4 hover:shadow-xl transition-shadow cursor-pointer">
-              <div className="text-4xl">{stat.icon}</div>
-              <div>
-                <p className="text-gray-500">{stat.title}</p>
-                <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
-              </div>
-            </div>
-          ))}
+      {/* --- SIDEBAR --- */}
+      <aside className="w-64 border-r border-slate-200   flex flex-col fixed h-full bg-white   z-20 transition-colors">
+        <div className="p-6">
+          <div className="flex items-center justify-center p-2 rounded-xl ">
+            <img src="/logo.png" alt="Logo" className="h-full w-auto object-contain " />
+          </div>
         </div>
 
-        {/* Example Table: Recent Orders */}
-        <section className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4">Recently Users</h2>
-          <table className="w-full table-auto border-collapse">
-            <thead>
-              <tr>
-                <th className="border-b px-4 py-2 text-left">Order ID</th>
-                <th className="border-b px-4 py-2 text-left">Customer</th>
-                <th className="border-b px-4 py-2 text-left">Amount</th>
-                <th className="border-b px-4 py-2 text-left">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-            </tbody>
-          </table>
-        </section>
+        <nav className="flex-1 px-4 py-4 space-y-1">
+          {[
+            { id: 'Overview', icon: <FaChartBar />, label: 'Overview' },
+            { id: 'Customers Details', icon: <FaUsers />, label: 'Customers Details' },
+            { id: 'PhotoGraphy', icon: <FaCamera />, label: 'PhotoGraphy' },
+            { id: 'VideoGraphy', icon: <FaVideo />, label: 'VideoGraphy' },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${activeTab === item.id
+                ? 'bg-slate-900  text-white  shadow-lg'
+                : 'text-black  hover:bg-slate-50  hover:text-slate-950 '
+                }`}
+            >
+              <span className="text-base">{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="p-4 mt-auto border-t border-slate-100">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-between space-x-2 px-3 py-2 text-sm font-medium text-red-500 hover:bg-red-50  rounded-lg transition-colors">
+            <span>Sign out</span>
+            <FaSignOutAlt />
+          </button>
+        </div>
+      </aside>
+
+      {/* --- MAIN CONTENT --- */}
+      <main className="flex-1 ml-64 min-h-screen flex flex-col">
+        {/* Header */}
+        <header className="h-16 flex items-center justify-between px-8 border-b border-slate-200  bg-white/50  backdrop-blur-sm sticky top-0 z-10">
+          <div className="flex items-center justify-center p-2">
+            <p className='font-bold text-xl  '>Kanya Studios</p>
+          </div>
+
+          <div className="flex items-center space-x-6">
+            {/* --- PROFILE HOVER SECTION --- */}
+            <div className="relative group py-2">
+              <div className="flex items-center space-x-2 cursor-pointer">
+                <div className="text-right hidden sm:block">
+                  <p className="text-sm font-bold text-slate-900  ">Kanya Studio</p>
+                  <p className="text-[10px] text-gray-500  ">Admin Account</p>
+                </div>
+                <FaUserCircle size={30} className="text-slate-400  " />
+              </div>
+
+              {/* Dropdown Menu */}
+              <div className="absolute right-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="bg-white   border border-slate-200  rounded-xl shadow-xl overflow-hidden">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center space-x-2"
+                  >
+                    <span>Sign out</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Dynamic View */}
+        <div className="p-8 max-w-7xl mx-auto w-full">
+          {activeTab === 'Overview' && <OverviewPage />}
+          {activeTab === 'Customers Details' && <CustomersDetailsPage />}
+          {activeTab === 'PhotoGraphy' && <Photography title="PhotoGraphy" />}
+          {activeTab === 'VideoGraphy' && <Videography title="VideoGraphy" />}
+        </div>
       </main>
     </div>
   );
