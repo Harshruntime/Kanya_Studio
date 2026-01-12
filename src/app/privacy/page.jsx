@@ -74,7 +74,6 @@ const PrivacyPage = () => {
 
           {/* RIGHT: CONTENT AREA */}
           <div className="lg:w-3/4 space-y-32 ">
-            
             {/* SECTION 01 */}
             <section id="collection" className="scroll-mt-32 group">
               <div className="flex items-center gap-6 mb-8">
