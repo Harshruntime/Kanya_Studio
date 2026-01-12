@@ -73,7 +73,7 @@ const PrivacyPage = () => {
           </aside>
 
           {/* RIGHT: CONTENT AREA */}
-          <div className="lg:w-3/4 space-y-32 ">
+          <div className="lg:w-3/4 space-y-32">
             
             {/* SECTION 01 */}
             <section id="collection" className="scroll-mt-32 group">
